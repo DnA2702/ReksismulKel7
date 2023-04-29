@@ -2,12 +2,18 @@ import sys
 import cv2
 import qrcode
 import database
+import sys
+import os
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
 from PIL.ImageQt import ImageQt
+path = os.path.abspath("Speaker-Identification-Using-Machine-Learning-master")
+print(path)
+sys.path.insert(0, path)
+import SpeakerIdentification
 
 class Menu(QMainWindow):
     def __init__(self):
@@ -69,8 +75,9 @@ class GenQR(QMainWindow):
 class Presence(QMainWindow):
 
     qrValid = False
-    speechValid = True
+    speechValid = False
     nim = ""
+    print(qrValid,",",speechValid,",",nim)
 
     def __init__(self):
         super(Presence, self).__init__()
@@ -114,9 +121,17 @@ class Presence(QMainWindow):
     
     def ValidSpeech(self):
         # Source Code Rekam Suara
-        print("")
+        nama = database.getnama(Presence.nim)
+        SpeakerIdentification.record_audio_test()
+        hasil = SpeakerIdentification.test_model()
+        if str(hasil).lower() == nama.lower():
+            self.textBrowser.setStyleSheet("background-color: rgb(0, 0, 255)")
+            Presence.speechValid = True
+        else:
+            self.textBrowser.setStyleSheet("background-color: rgb(255, 0, 0);")
 
     def Presensi(self):
+        print(Presence.qrValid,",",Presence.speechValid,",",Presence.nim)
         if Presence.qrValid and Presence.speechValid:
             # Ubah status di database
             database.presensi(Presence.nim)

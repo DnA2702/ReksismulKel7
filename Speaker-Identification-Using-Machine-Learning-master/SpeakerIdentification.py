@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 28 17:29:44 2022
-
-@author: Ahsan Ali
-"""
 
 import os
 import wave
@@ -96,13 +90,13 @@ def record_audio_train(recordings, duration):
       waveFile.writeframes(b''.join(Recordframes))
       waveFile.close()
 
-def record_audio_test(duration):
+def record_audio_test():#duration
 
    FORMAT = pyaudio.paInt16
    CHANNELS = 1
    RATE = 44100
    CHUNK = 512
-   RECORD_SECONDS = duration
+   RECORD_SECONDS = 3 #duration
 # 	device_index = 2
    audio = pyaudio.PyAudio()
    print("----------------------record device list---------------------")
@@ -112,7 +106,7 @@ def record_audio_test(duration):
            if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
                print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
    print("-------------------------------------------------------------")
-   index = int(input())		
+   index =  1 # int(input())		
    print("recording via index "+str(index))
    stream = audio.open(format=FORMAT, channels=CHANNELS,
                    rate=RATE, input=True,input_device_index = index,
@@ -127,7 +121,7 @@ def record_audio_test(duration):
    stream.close()
    audio.terminate()
    OUTPUT_FILENAME="sample.wav"
-   WAVE_OUTPUT_FILENAME=os.path.join("testing_set",OUTPUT_FILENAME)
+   WAVE_OUTPUT_FILENAME=os.path.join("Speaker-Identification-Using-Machine-Learning-master\\testing_set\\",OUTPUT_FILENAME)
    trainedfilelist = open("testing_set_addition.txt", 'w')
    trainedfilelist.write(OUTPUT_FILENAME+"\n")
    waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
@@ -212,22 +206,23 @@ def test_model():
        winner = np.argmax(log_likelihood)
        print("\tdetected as - ", speakers[winner])
        time.sleep(1.0)  
+       return(speakers[winner])
 #choice=int(input("\n1.Record audio for training \n 2.Train Model \n 3.Record audio for testing \n 4.Test Model\n"))
   
-while True:
-    choice=int(input("\n 1.Record audio for training \n 2.Train Model \n 3.Record audio for testing \n 4.Test Model\n"))
-    if(choice==1):
-        recordings = int(input("Enter number of recordings: "))
-        duration = int(input("Enter duration in seconds: "))
-        record_audio_train(recordings, duration)
+# while True:
+#     choice=int(input("\n 1.Record audio for training \n 2.Train Model \n 3.Record audio for testing \n 4.Test Model\n"))
+#     if(choice==1):
+#         recordings = int(input("Enter number of recordings: "))
+#         duration = int(input("Enter duration in seconds: "))
+#         record_audio_train(recordings, duration)
         
-    elif(choice==2):
-        train_model()
-    elif(choice==3):
-        duration = int(input("Enter duration in seconds: "))
-        record_audio_test(duration)
+#     elif(choice==2):
+#         train_model()
+#     elif(choice==3):
+#         # duration = int(input("Enter duration in seconds: "))
+#         record_audio_test()
         
-    elif(choice==4):
-        test_model()
-    if(choice>4):
-        break
+#     elif(choice==4):
+#         test_model()
+#     if(choice>4):
+#         break
