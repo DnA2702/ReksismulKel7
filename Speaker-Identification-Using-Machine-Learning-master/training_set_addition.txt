@@ -1,0 +1,10 @@
+Delvin-sample0.wav
+Delvin-sample1.wav
+Delvin-sample2.wav
+Dias-sample0.wav
+Dias-sample1.wav
+Deep-sample0.wav
+Deep-sample1.wav
+Deep-sample2.wav
+new-sample0.wav
+new-sample1.wav

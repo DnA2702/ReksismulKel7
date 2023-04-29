@@ -1,6 +1,7 @@
 import sys
 import cv2
 import qrcode
+import database
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi
@@ -68,7 +69,8 @@ class GenQR(QMainWindow):
 class Presence(QMainWindow):
 
     qrValid = False
-    speechValid = False
+    speechValid = True
+    nim = ""
 
     def __init__(self):
         super(Presence, self).__init__()
@@ -81,6 +83,7 @@ class Presence(QMainWindow):
     def Menu(self):
         Presence.qrValid = False
         Presence.speechValid = False
+        Presence.nim = ""
         menu = Menu()
         widget.addWidget(menu)
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -91,7 +94,7 @@ class Presence(QMainWindow):
         msg.setText("Arahkan QR ke depan kamera")
         msg.setIcon(QMessageBox.Information)
         x = msg.exec_()
-        vid = cv2.VideoCapture(1)
+        vid = cv2.VideoCapture(0)
         detector = cv2.QRCodeDetector()
         while True:
             ret, frame = vid.read()
@@ -100,6 +103,7 @@ class Presence(QMainWindow):
                 if (data == '18220051' or data == '18220063' or data == '18220064'):
                     self.textBrowser.setStyleSheet("background-color: rgb(0, 255, 0)")
                     Presence.qrValid = True
+                    Presence.nim = data
                 else:
                     self.textBrowser.setStyleSheet("background-color: rgb(255, 0, 0);")
             cv2.imshow('frame', frame)
@@ -115,12 +119,13 @@ class Presence(QMainWindow):
     def Presensi(self):
         if Presence.qrValid and Presence.speechValid:
             # Ubah status di database
+            database.presensi(Presence.nim)
             msg = QMessageBox()
             msg.setWindowTitle("Notification")
             msg.setText("Presensi berhasil dilakukan")
             msg.setIcon(QMessageBox.Information)
             x = msg.exec_()
-            Presence.Menu()
+            Presence.Menu(self)
         else:
             msg = QMessageBox()
             msg.setWindowTitle("Notification")
