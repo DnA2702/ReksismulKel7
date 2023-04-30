@@ -125,10 +125,10 @@ class Presence(QMainWindow):
         SpeakerIdentification.record_audio_test()
         hasil = SpeakerIdentification.test_model()
         if str(hasil).lower() == nama.lower():
-            self.textBrowser.setStyleSheet("background-color: rgb(0, 0, 255)")
+            self.textBrowser_2.setStyleSheet("background-color: rgb(0, 0, 255)")
             Presence.speechValid = True
         else:
-            self.textBrowser.setStyleSheet("background-color: rgb(255, 0, 0);")
+            self.textBrowser_2.setStyleSheet("background-color: rgb(255, 0, 0);")
 
     def Presensi(self):
         print(Presence.qrValid,",",Presence.speechValid,",",Presence.nim)
