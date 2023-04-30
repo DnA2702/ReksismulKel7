@@ -54,7 +54,7 @@ class GenQR(QMainWindow):
             msg.setIcon(QMessageBox.Warning)
             x = msg.exec_()
         else:
-            if (nim == "18220051" or nim == "18220063" or nim == "18220064"):
+            if (database.validatenim(nim)):
                 img = qrcode.make(nim)
                 qr = ImageQt(img)
                 pix = QPixmap.fromImage(qr)
@@ -107,7 +107,8 @@ class Presence(QMainWindow):
             ret, frame = vid.read()
             data, bbox, straight_qrcode = detector.detectAndDecode(frame)
             if len(data) > 0:
-                if (data == '18220051' or data == '18220063' or data == '18220064'):
+                
+                if (database.validatenim(data)):
                     self.textBrowser.setStyleSheet("background-color: rgb(0, 255, 0)")
                     Presence.qrValid = True
                     Presence.nim = data
