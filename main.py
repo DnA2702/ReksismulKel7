@@ -98,7 +98,7 @@ class Presence(QMainWindow):
     def ScanQR(self):
         msg = QMessageBox()
         msg.setWindowTitle("Notification")
-        msg.setText("Arahkan QR ke depan kamera")
+        msg.setText("Arahkan QR ke depan kamera, klik 'OK' untuk memindai QR")
         msg.setIcon(QMessageBox.Information)
         x = msg.exec_()
         vid = cv2.VideoCapture(0)
@@ -126,10 +126,10 @@ class Presence(QMainWindow):
         SpeakerIdentification.record_audio_test()
         hasil = SpeakerIdentification.test_model()
         if str(hasil).lower() == nama.lower():
-            self.textBrowser.setStyleSheet("background-color: rgb(0, 0, 255)")
+            self.textBrowser_2.setStyleSheet("background-color: rgb(0, 255, 0)")
             Presence.speechValid = True
         else:
-            self.textBrowser.setStyleSheet("background-color: rgb(255, 0, 0);")
+            self.textBrowser_2.setStyleSheet("background-color: rgb(255, 0, 0);")
 
     def Presensi(self):
         print(Presence.qrValid,",",Presence.speechValid,",",Presence.nim)
@@ -145,7 +145,7 @@ class Presence(QMainWindow):
         else:
             msg = QMessageBox()
             msg.setWindowTitle("Notification")
-            msg.setText("Pastikan QR dan speech valid")
+            msg.setText("Pastikan QR dan speaker valid")
             msg.setIcon(QMessageBox.Warning)
             x = msg.exec_()
 

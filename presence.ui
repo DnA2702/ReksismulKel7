@@ -65,7 +65,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Validate Speech</string>
+     <string>Validate Speaker</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_9">
