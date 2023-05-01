@@ -127,7 +127,7 @@ class Presence(QMainWindow):
         if Presence.qrValid:
             msg = QMessageBox()
             msg.setWindowTitle("Notification")
-            msg.setText("Klik'OK' mulai merekam suara, Rekaman akan dilakukan selama 3 detik")
+            msg.setText("Klik 'OK' untuk memulai rekaman suara. Rekaman akan dilakukan selama 3 detik")
             msg.setIcon(QMessageBox.Information)
             x = msg.exec_()
             nama = database.getnama(Presence.nim)
