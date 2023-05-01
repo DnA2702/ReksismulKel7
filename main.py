@@ -114,6 +114,8 @@ class Presence(QMainWindow):
                     Presence.nim = data
                 else:
                     self.textBrowser.setStyleSheet("background-color: rgb(255, 0, 0);")
+                    Presence.qrValid = False
+                    Presence.nim = data
             cv2.imshow('frame', frame)
             if cv2.waitKey(1000):
                 break
@@ -122,15 +124,27 @@ class Presence(QMainWindow):
     
     def ValidSpeech(self):
         # Source Code Rekam Suara
-        nama = database.getnama(Presence.nim)
-        SpeakerIdentification.record_audio_test()
-        hasil = SpeakerIdentification.test_model()
-        if str(hasil).lower() == nama.lower():
-            self.textBrowser_2.setStyleSheet("background-color: rgb(0, 255, 0)")
-            Presence.speechValid = True
+        if Presence.qrValid:
+            msg = QMessageBox()
+            msg.setWindowTitle("Notification")
+            msg.setText("Klik'OK' mulai merekam suara, Rekaman akan dilakukan selama 3 detik")
+            msg.setIcon(QMessageBox.Information)
+            x = msg.exec_()
+            nama = database.getnama(Presence.nim)
+            SpeakerIdentification.record_audio_test()
+            hasil = SpeakerIdentification.test_model()
+            if str(hasil).lower() == nama.lower():
+                self.textBrowser_2.setStyleSheet("background-color: rgb(0, 255, 0)")
+                Presence.speechValid = True
+            else:
+                self.textBrowser_2.setStyleSheet("background-color: rgb(255, 0, 0);")
+                Presence.speechValid = False
         else:
-            self.textBrowser_2.setStyleSheet("background-color: rgb(255, 0, 0);")
-
+            msg = QMessageBox()
+            msg.setWindowTitle("Notification")
+            msg.setText("Pastikan QR valid sebelum melakukan validasi Speaker")
+            msg.setIcon(QMessageBox.Warning)
+            x = msg.exec_()       
     def Presensi(self):
         print(Presence.qrValid,",",Presence.speechValid,",",Presence.nim)
         if Presence.qrValid and Presence.speechValid:
@@ -141,7 +155,7 @@ class Presence(QMainWindow):
             msg.setText("Presensi berhasil dilakukan")
             msg.setIcon(QMessageBox.Information)
             x = msg.exec_()
-            Presence.Menu(self)
+            # Presence.Menu(self)
         else:
             msg = QMessageBox()
             msg.setWindowTitle("Notification")
