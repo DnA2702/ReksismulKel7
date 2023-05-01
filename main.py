@@ -144,7 +144,8 @@ class Presence(QMainWindow):
             msg.setWindowTitle("Notification")
             msg.setText("Pastikan QR valid sebelum melakukan validasi Speaker")
             msg.setIcon(QMessageBox.Warning)
-            x = msg.exec_()       
+            x = msg.exec_()
+            
     def Presensi(self):
         print(Presence.qrValid,",",Presence.speechValid,",",Presence.nim)
         if Presence.qrValid and Presence.speechValid:
@@ -155,7 +156,7 @@ class Presence(QMainWindow):
             msg.setText("Presensi berhasil dilakukan")
             msg.setIcon(QMessageBox.Information)
             x = msg.exec_()
-            # Presence.Menu(self)
+            Presence.Menu(self)
         else:
             msg = QMessageBox()
             msg.setWindowTitle("Notification")
